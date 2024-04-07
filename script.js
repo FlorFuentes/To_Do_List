@@ -1,4 +1,74 @@
-let input = document.querySelector(".input");
+document.addEventListener('DOMContentLoaded', function () {
+  let input = document.querySelector(".input");
+  let botonAgregar = document.getElementById("botonAgregar");
+  let container = document.querySelector(".container");
+
+  class Item {
+    constructor(nuevaTarea) {
+      this.crearDiv(nuevaTarea);
+    }
+
+    crearDiv(nuevaTarea) {
+      let inputItem = document.createElement("input");
+      inputItem.type = "text";
+      inputItem.disabled = true;
+      inputItem.className = "item-input";
+      inputItem.value = nuevaTarea;
+
+      let botonEditar = document.createElement("button");
+      botonEditar.innerHTML = "<i class='fas fa-lock'></i>";
+      botonEditar.className = "boton-editar";
+
+      let botonRemover = document.createElement("button");
+      botonRemover.innerHTML = "<i class='fas fa-trash'></i>";
+      botonRemover.className = "boton-remover";
+
+      let divItem = document.createElement("div");
+      divItem.className = "item";
+      divItem.appendChild(inputItem);
+      divItem.appendChild(botonEditar);
+      divItem.appendChild(botonRemover);
+      container.appendChild(divItem);
+
+      botonEditar.addEventListener("click", function () {
+        inputItem.disabled = !inputItem.disabled;
+
+        if (!inputItem.disabled) {
+          botonEditar.innerHTML = "<i class='fas fa-lock-open'></i>";
+        } else {
+          botonEditar.innerHTML = "<i class='fas fa-lock'></i>";
+        }
+      });
+
+      botonRemover.addEventListener("click", function () {
+        divItem.remove();
+      });
+    }
+  }
+
+  function chequearInput() {
+    if (input.value.trim() === "") {
+      alert("Introduzca una tarea por favor!");
+    } else {
+      new Item(input.value);
+      input.value = "";
+    }
+  }
+
+  botonAgregar.addEventListener("click", function () {
+    chequearInput();
+  });
+
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      chequearInput();
+    }
+  });
+});
+
+
+
+/* let input = document.querySelector(".input");
 let botonAgregar = document.querySelector(".boton-agregar");
 let container = document.querySelector(".container");
 
@@ -63,3 +133,4 @@ input.addEventListener("keydown", function (enter) {
     chequearInput();
   }
 });
+ */
